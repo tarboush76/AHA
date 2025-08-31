@@ -238,18 +238,25 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("⚠️ حدث خطأ أثناء البحث. حاول مرة أخرى.")
 
 def main():
-    try:
-        log.info("🚀 بدء تشغيل البوت...")
-        app = Application.builder().token(TOKEN).build()
-        app.add_handler(CommandHandler("start", start))
-        app.add_handler(CommandHandler("howm", howm))
-        app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
+from flask import Flask, request
 
-        log.info("✅ البوت جاهز وسيبدأ بوضع Polling")
-        app.run_polling(allowed_updates=Update.ALL_TYPES)
-    except Exception as e:
-        log.error(f"خطأ في تشغيل البوت: {e}")
-        raise
+app = Flask(__name__)
 
-if __name__ == "__main__":
-    main()
+@app.route("/" + TOKEN, methods=["POST"])
+def webhook():
+    update = Update.de_json(request.get_json(force=True), application.bot)
+    application.process_update(update)
+    return "ok", 200
+
+@app.route("/")
+def index():
+    return "بوت النتائج يعمل ✅", 200
+
+def main():
+    global application
+    application = Application.builder().token(TOKEN).build()
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
+
+    # إعداد Webhook
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
