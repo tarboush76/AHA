@@ -1,6 +1,7 @@
 import os
 import logging
 import pandas as pd
+from typing import Optional
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
@@ -16,6 +17,8 @@ TOKEN = os.getenv("BOT_TOKEN")
 if not TOKEN:
     raise RuntimeError("❌ BOT_TOKEN غير موجود. أضِفه في Secrets")
 
+# ============ تتبع المستخدمين ============
+user_ids = set()
 # ============ تحميل ملفات الإكسل ============
 EXCEL_FILES = {
     "2025": "re25.xlsb",
