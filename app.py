@@ -19,11 +19,11 @@ def get_results():
     first_digit = seat_number[0]
     
     file_map = {
-        '5': 'results_2025.xlsx',
-        '8': 'results_2024.xlsx',
-        '3': 'results_2023.xlsx',
-        '2': 'results_2022.xlsx',
-        '4': 'results_2021.xlsx'
+        '5': 're25.csv',
+        '8': 're24.csv',
+        '3': 're23.csv',
+        '2': 're22.csv',
+        '4': 're21.csv'
     }
     
     file_name = file_map.get(first_digit)
@@ -91,4 +91,5 @@ def get_results():
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=5001, debug=True)
+
  
