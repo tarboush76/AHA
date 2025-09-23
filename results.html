@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتيجة الطالب</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body { direction: rtl; text-align: right; background-color: #f4f4f4; }
+        .container-non-responsive { max-width: 1001px; margin: auto; background-color: #fff; padding: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        #ra { padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        .success2 { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .success2 th, .success2 td { border: 1px solid #ddd; padding: 4px; text-align: center; }
+        .success2 thead th { background-color: #f2f2f2; }
+        .na { font-size: 20.5px; text-align: center; margin-top: 20px; }
+        .header-info { padding: 10px 20px; border: 1px solid #000; border-radius: 10px; font-size: 21px; }
+        #footer { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1px solid #eee; font-size: 14px; color: #777; }
+        .info-header-container { text-align: center; }
+        .title-line { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+        .box-info { display: flex; justify-content: space-between; align-items: center; border: 1px solid #000; padding: 10px; border-radius: 10px; margin-bottom: 10px; }
+        .box-info > div { flex: 1; text-align: center; }
+        .name-line, .school-line, .birth-info { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; }
+        .name-line { font-size: 18px; font-weight: bold; margin-top: 10px; }
+        .school-line > div, .birth-info > div { flex: 1; }
+        .info-title h2 b { font-size: inherit; }
+        .info-header-container h2, .school-line h2, .name-line h2, .birth-info h2 { font-size: 1.5em !important; font-weight: bold !important; }
+        .small-col { width: 2cm !important; }
+        @media print { @page { size: A4; margin: 0; } body { margin: 0; padding: 0; } .container-non-responsive { max-width: 100%; width: 100%; margin: 0; padding: 10px; border: none; box-shadow: none; font-size: 11pt; } .success2 th, .success2 td { font-size: 10pt; } h4, h2 { font-size: 12pt !important; } .title-line { font-size: 14pt !important; } .name-line { font-size: 12pt !important; } }
+    </style>
+</head>
+<body dir="rtl" lang="ar">
+    <div class="container-non-responsive">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <a href="/" class="btn btn-primary" style="margin-left: 10px;">العودة للبحث</a>
+        </div>
+        <div id="result">
+            <div id="ra">
+                <div class="info-header-container">
+                    <div class="title-line"><h2><b>نتيجة الصف التاسع للعام {{ academic_year }}</b></h2></div>
+              <div class="box-info">
+    <div style="text-align: right;"><h2><b>رقم الجلوس : {{ student.get('Number', 'N/A') }}</b></h2></div>
+</div>
+                </div>
+                <div class="school-line">
+                    <div style="text-align: right;"><h2><b>المدرسة : {{ student.get('المدرسة', student.get('School', 'N/A')) }}</b></h2></div>
+                    <div style="text-align: left;"><h2><b>المديرية : {{ student.get('المديرية', 'N/A') }}</b></h2></div>
+                </div>
+                <div class="name-line" style="text-align: right;"><h2><b>اسم الطالب : {{ student.get('الاسم', 'N/A') }}</b></h2></div>
+                <div class="birth-info">
+                    <div style="text-align: right;"><h2><b>محل الميلاد : {{ student.get('محل الميلاد', 'N/A') }}</b></h2></div>
+                    <div style="text-align: left;"><h2><b>تاريخ الميلاد : {{ student.get('تاريخ الميلاد', 'N/A') }}</b></h2></div>
+                </div>
+                <div class="table-responsive">
+                    <table class="success2">
+                        <thead>
+                            <tr style="border-top: 2px solid;">
+                                <td style="border:none;" colspan="5"><h2 style="font-size: 18px;"><b>درجات المواد / TRANSCRIPT</b></h2></td>
+                            </tr>
+                            <tr>
+                                <th><center>المواد الدراسية</center></th>
+                                <th class="small-col"><center>النهاية الكبرى</center></th>
+                                <th class="small-col"><center>النهاية الصغرى</center></th>
+                                <th><center>الدرجة المستحقة</center></th>
+                                <th class=""><center>SUBJECTS</center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ grades_rows | safe }}
+                            <tr style="font-weight:bold;">
+                                <td align="center">المجموع</td>
+                                <td align="center"><h4>{{ max_total }}</h4></td>
+                                <td align="center" class="small-col"><h4>{{ max_total / 2 }}</h4></td>
+                                <td align="center"><h4>{{ student.get('المجموع', 'N/A') }}</h4></td>
+                                <td align="center">Total</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <div class="na">
+                    <span>النتيجة النهائية : <span style="font-weight:bold;">{{ student.get('النتيجة', 'N/A') }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;المعدل : {{ student.get('المعدل', 'N/A') }} %</span><br/>
+                    <span>الملاحظات :
+                        {% set notes = student.get('ملاحظات', '') %}
+                        {% if notes and notes|string|lower != 'nan' %}
+                            <span style="font-weight:bold; color:red;">{{ notes }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <br/><br/>
+                <center><span style="color:red;"><b>*ملاحظة : </b></span> لا يعتبر هذا البيان وثيقة رسمية.</center>
+            </div>
+            <br /><br />
+            <center><a href="javascript:window.print()" class="btn btn-success btn-lg">طباعة النتيجة</a></center>
+        </div>
+        <div id="footer">
+            <p>جميع الحقوق محفوظة &copy; لـ مكتب التربية والتعليم - اليمن - تعز</p>
+            <p>برمجة وتصميم: خالد طربوش</p>
+        </div>
+    </div>
+</body>
+</html>
