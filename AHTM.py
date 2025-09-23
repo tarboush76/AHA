@@ -34,11 +34,11 @@ else:
 
 # ===== ملفات الإكسل =====
 EXCEL_FILES = {
-    "2021": "results_2021.xlsx",
-    "2022": "results_2022.xlsx",
-    "2023": "results_2023.xlsx",
-    "2024": "results_2024.xlsx",
-    "2025": "results_2025.xlsx"
+    "2021": "re21.csv",
+    "2022": "re22.csv",
+    "2023": "re23.csv",
+    "2024": "re24.csv",
+    "2025": "re25.csvx"
 }
 
 dataframes = {}
